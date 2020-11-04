@@ -15,7 +15,8 @@ def find_maximal_subarray_sum(nums: List[int], k: int) -> int:
         i = 0
         while i + j <= len(nums):
             comb = nums[i : i + j]
-            if sum(comb) > max_sum:
-                max_sum = sum(comb)
+            curr_sum = sum(comb)
+            if curr_sum > max_sum:
+                max_sum = curr_sum
             i += 1
     return max_sum
