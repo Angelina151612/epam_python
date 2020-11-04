@@ -1,6 +1,5 @@
-from __future__ import annotations
 import pytest
-from collections.abc import Sequence
+from typing import Sequence
 
 from task02 import check_fibonacci
 
