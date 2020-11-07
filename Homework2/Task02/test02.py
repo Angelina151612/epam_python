@@ -1,11 +1,12 @@
-import pytest
 from typing import List, Tuple
+
+import pytest
 
 from task02 import major_and_minor_elem
 
 
 @pytest.mark.parametrize(
-    ["value", "expected_result"],
+    ("value", "expected_result"),
     [
         ([3, 2, 3], (3, 2)),
         ([2, 2, 1, 1, 1, 2, 2], (2, 1)),
