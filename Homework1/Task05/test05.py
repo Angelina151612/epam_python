@@ -1,11 +1,12 @@
+from typing import List
+
 import pytest
 
 from task05 import find_maximal_subarray_sum
-from typing import List
 
 
 @pytest.mark.parametrize(
-    ["value1", "value2", "expected_result"],
+    ("value1", "value2", "expected_result"),
     [
         ([1, 3, -1, -3, 5, 3, 6, 7], 3, 16),
         ([1, -1, 1, -1, 1, -1], 5, 1),

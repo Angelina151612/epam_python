@@ -1,11 +1,12 @@
-import pytest
 from typing import Sequence
+
+import pytest
 
 from task02 import check_fibonacci
 
 
 @pytest.mark.parametrize(
-    ["value", "expected_result"],
+    ("value", "expected_result"),
     [
         ([0, 1, 1, 2], True),
         ([], False),
