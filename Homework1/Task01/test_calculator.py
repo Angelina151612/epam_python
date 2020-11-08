@@ -1,10 +1,10 @@
-import pytest
-
 from calc import check_power_of_2
+
+import pytest
 
 
 @pytest.mark.parametrize(
-    ["value", "expected_result"],
+    ("value", "expected_result"),
     [
         (65536, True),
         (12, False),
