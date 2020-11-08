@@ -9,6 +9,7 @@ Examples:
 from typing import List
 
 
+# flake8: noqa: CCR001
 def find_maximal_subarray_sum(nums: List[int], k: int) -> int:
     max_sum = 0
     for j in range(1, k + 1):
