@@ -8,12 +8,21 @@ assert = custom_range(string.ascii_lowercase, 'g') == ['a', 'b', 'c', 'd', 'e', 
 assert = custom_range(string.ascii_lowercase, 'g', 'p') == ['g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o']
 assert = custom_range(string.ascii_lowercase, 'p', 'g', -2) == ['p', 'n', 'l', 'j', 'h']
 """
-from typing import List, Sequence
+from typing import Any, List, Sequence
+
+
+def check_side_to_go(ind_start: int, ind_stop: int, step: int) -> bool:
+    if step > 0 and ind_start >= ind_stop:
+        return False
+    elif step < 0 and ind_start <= ind_stop:
+        return False
+    else:
+        return True
 
 
 def custom_range(
-    seq: Sequence, start: str, stop: str = None, step: str = None
-) -> List[str]:
+    seq: Sequence, start: Any, stop: Any = None, step: Any = None
+) -> List[Any]:
     if stop is None:
         stop = start
         start = seq[0]
@@ -22,13 +31,17 @@ def custom_range(
         step = 1
 
     res = []
+
     while True:
-        if step > 0 and seq.index(start) >= seq.index(stop):
-            break
-        elif step < 0 and seq.index(start) <= seq.index(stop):
+        ind_start = seq.index(start)
+        ind_stop = seq.index(stop)
+
+        if not check_side_to_go(ind_start, ind_stop, step):
             break
         else:
-            ind = seq.index(start)
-            res.append(seq[ind])
-            start = seq[ind + step]
+            res.append(seq[ind_start])
+            next_ind = ind_start + step
+            if next_ind < 0 or next_ind > seq.index(seq[-1]):
+                break
+            start = seq[next_ind]
     return res

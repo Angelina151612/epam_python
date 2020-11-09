@@ -15,6 +15,8 @@ import pytest
             ["g", "h", "i", "j", "k", "l", "m", "n", "o"],
         ),
         ([string.ascii_lowercase, "p", "g", -2], ["p", "n", "l", "j", "h"]),
+        ([string.ascii_lowercase, "p", "g", -20], ["p"]),
+        ([string.ascii_lowercase, "a", "c", 15], ["a"]),
     ],
 )
 def test_custom_range(value: List[Any], expected_result: List[str]):
