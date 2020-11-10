@@ -10,18 +10,20 @@ val_1 = cache_func(*some)
 val_2 = cache_func(*some)
 assert val_1 is val_2
 """
-from collections import Callable
+from collections.abc import Callable
 from typing import Any
 
 
 def cache(func: Callable) -> Callable:
-    my_cache = {}
+    key = []
+    value = []
 
     def wrapper(*args: Any) -> Any:
-        if args in my_cache:
-            return my_cache[args]
+        if args in key:
+            return value[key.index(args)]
         else:
-            my_cache[args] = func(*args)
-            return my_cache[args]
+            key.append(args)
+            value.append(func(*args))
+            return value[-1]
 
     return wrapper
