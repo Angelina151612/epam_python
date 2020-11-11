@@ -15,7 +15,7 @@ import pytest
 @pytest.fixture()
 def file_test_open():
     filename = "file_test_open.txt"
-    with open(filename, "w+") as f:
+    with open(filename, "w") as f:
         f.write(
             "Der Waldgang \\u2014 es ist keine Idylle, die sich hinter dem Titel verbirgt. "
         )
@@ -35,7 +35,7 @@ def test_open_file(file_test_open):
 @pytest.fixture()
 def file_with_diverse_words():
     filename = "file_with_diverse_words.txt"
-    with open(filename, "w+") as f:
+    with open(filename, "w") as f:
         f.write(
             "F\\u00e4lle abcd abcde aaaaaaaaaaaaaaaaaaaa abcdef abcdefg"
             " abcdefgh abcdefghi  abcdefghij abcdefghijk abcdefghijkl"
@@ -64,7 +64,7 @@ def test_get_longest_diverse_words(file_with_diverse_words):
 @pytest.fixture()
 def file_with_rarest_char():
     filename = "file_with_rarest_char.txt"
-    with open(filename, "w+") as f:
+    with open(filename, "w") as f:
         f.write("madam I'm Adam")
     yield filename
     os.remove(filename)
@@ -79,7 +79,7 @@ def test_get_rarest_char(file_with_rarest_char):
 @pytest.fixture()
 def file_with_punctuation():
     filename = "file_with_rarest_char.txt"
-    with open(filename, "w+") as f:
+    with open(filename, "w") as f:
         f.write(
             "Hundert  Prozent:  das  ist  die  ideale  Ziffer,  die,  wie  alle Ideale, stets unerreichbar bleibt. "
         )
@@ -96,7 +96,7 @@ def test_count_punctuation_chars(file_with_punctuation):
 @pytest.fixture()
 def file_with_non_ascii_chars():
     filename = "file_with_non_ascii_chars.txt"
-    with open(filename, "w+") as f:
+    with open(filename, "w") as f:
         f.write(
             """
              Der Waldgang \\u2014 es ist keine Idylle, die sich hinter dem Titel verbirgt.
