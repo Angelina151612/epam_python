@@ -6,26 +6,27 @@ Given a file containing text. Complete using only default collections:
     4) Count every non ascii char
     5) Find most common non ascii char for document
 """
-import re
 import string
 from typing import List
 
 
 def open_file(file_path: str) -> str:
-    f = open(file_path)
-    return f.read()
+    with open(file_path) as f:
+        return bytes(f.read(), "ascii").decode("unicode-escape")
 
 
 def get_longest_diverse_words(file_path: str) -> List[str]:
     text = open_file(file_path)
-    word_list = re.sub(r"[^\w\s]", "", text).split()
+    exclude = set(string.punctuation)
+    text = "".join(ch for ch in text if ch not in exclude)
+    word_list = text.split()
     all_words = [(elem, len(elem), len(set(elem))) for elem in set(word_list)]
     sorted_words = sorted(all_words, key=lambda point: (-point[2], -point[1]))
     return [a[0] for a in sorted_words[:10]]
 
 
 def get_rarest_char(file_path: str) -> str:
-    text = open_file((file_path))
+    text = open_file(file_path)
     counter = {}
     for elem in text:
         if elem not in counter:
@@ -42,24 +43,23 @@ def get_rarest_char(file_path: str) -> str:
 def count_punctuation_chars(file_path: str) -> int:
     text = open_file(file_path)
     count = 0
-    for i, elem in enumerate(text):
-        if not (elem == "\\" and text[i + 1] == "u"):
-            if elem in string.punctuation:
-                count += 1
+    for elem in text:
+        if elem in string.punctuation:
+            count += 1
     return count
 
 
 def count_non_ascii_chars(file_path: str) -> int:
     text = open_file(file_path)
     count = 0
-    for i, elem in enumerate(text):
-        if elem == "\\" and text[i + 1] == "u":
+    for elem in text:
+        if ord(elem) > 128:
             count += 1
     return count
 
 
 def get_most_common_non_ascii_char(file_path: str) -> str:
     text = open_file(file_path)
-    words = re.findall(r"\\u\w\w\w\w", text)
-    words_counter = {words.count(val): val for val in set(words)}
-    return words_counter[max(words_counter.keys())]
+    chars = [char for char in text if ord(char) > 128]
+    chars_counter = {chars.count(val): val for val in set(chars)}
+    return chars_counter[max(chars_counter.keys())]

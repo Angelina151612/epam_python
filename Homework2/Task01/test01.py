@@ -1,3 +1,5 @@
+import os
+
 from Task01.task01 import (
     count_non_ascii_chars,
     count_punctuation_chars,
@@ -10,20 +12,40 @@ from Task01.task01 import (
 import pytest
 
 
-@pytest.mark.parametrize(
-    ("file_path_open", "expected_result"),
-    [
-        ("text_open.txt", "Wir atgd gdhd"),
-    ],
-)
-def test_open_file(file_path_open: str, expected_result: str):
-    actual_result = open_file(file_path_open)
+@pytest.fixture()
+def file_test_open():
+    filename = "file_test_open.txt"
+    with open(filename, "w+") as f:
+        f.write(
+            "Der Waldgang \\u2014 es ist keine Idylle, die sich hinter dem Titel verbirgt. "
+        )
+    yield filename
+    os.remove(filename)
 
-    assert actual_result == expected_result
+
+def test_open_file(file_test_open):
+    actual_result = open_file(file_test_open)
+
+    assert (
+        actual_result
+        == "Der Waldgang \u2014 es ist keine Idylle, die sich hinter dem Titel verbirgt. "
+    )
 
 
-def test_get_longest_diverse_words():
-    actual_result = get_longest_diverse_words("text_1.txt")
+@pytest.fixture()
+def file_with_diverse_words():
+    filename = "file_with_diverse_words.txt"
+    with open(filename, "w+") as f:
+        f.write(
+            "F\\u00e4lle abcd abcde aaaaaaaaaaaaaaaaaaaa abcdef abcdefg"
+            " abcdefgh abcdefghi  abcdefghij abcdefghijk abcdefghijkl"
+        )
+    yield filename
+    os.remove(filename)
+
+
+def test_get_longest_diverse_words(file_with_diverse_words):
+    actual_result = get_longest_diverse_words(file_with_diverse_words)
 
     assert actual_result == [
         "abcdefghijkl",
@@ -34,30 +56,65 @@ def test_get_longest_diverse_words():
         "abcdefg",
         "abcdef",
         "abcde",
+        "F\u00e4lle",
         "abcd",
-        "abc",
     ]
 
 
-def test_get_rarest_char():
-    actual_result = get_rarest_char("text_2.txt")
+@pytest.fixture()
+def file_with_rarest_char():
+    filename = "file_with_rarest_char.txt"
+    with open(filename, "w+") as f:
+        f.write("madam I'm Adam")
+    yield filename
+    os.remove(filename)
+
+
+def test_get_rarest_char(file_with_rarest_char):
+    actual_result = get_rarest_char(file_with_rarest_char)
 
     assert actual_result == "I"
 
 
-def test_count_punctuation_chars():
-    actual_result = count_punctuation_chars("text_3.txt")
+@pytest.fixture()
+def file_with_punctuation():
+    filename = "file_with_rarest_char.txt"
+    with open(filename, "w+") as f:
+        f.write(
+            "Hundert  Prozent:  das  ist  die  ideale  Ziffer,  die,  wie  alle Ideale, stets unerreichbar bleibt. "
+        )
+    yield filename
+    os.remove(filename)
 
-    assert actual_result == 2
+
+def test_count_punctuation_chars(file_with_punctuation):
+    actual_result = count_punctuation_chars(file_with_punctuation)
+
+    assert actual_result == 5
 
 
-def test_count_non_ascii_chars():
-    actual_result = count_non_ascii_chars("text_4.txt")
+@pytest.fixture()
+def file_with_non_ascii_chars():
+    filename = "file_with_non_ascii_chars.txt"
+    with open(filename, "w+") as f:
+        f.write(
+            """
+             Der Waldgang \\u2014 es ist keine Idylle, die sich hinter dem Titel verbirgt.
+             Der  Leser  mu\\u00df  sich  vielmehr  auf  einen  bedenkli- chen Ausflug gefa\\u00dft machen,
+             der nicht nur \\u00fcber vorgebahnte Pfade, sondern auch \\u00fcber die Grenzen der Betrachtung
+             hin- ausf\\u00fchren wird."""
+        )
+    yield filename
+    os.remove(filename)
+
+
+def test_count_non_ascii_chars(file_with_non_ascii_chars):
+    actual_result = count_non_ascii_chars(file_with_non_ascii_chars)
 
     assert actual_result == 6
 
 
-def test_get_most_common_non_ascii_char():
-    actual_result = get_most_common_non_ascii_char("text_4.txt")
+def test_get_most_common_non_ascii_char(file_with_non_ascii_chars):
+    actual_result = get_most_common_non_ascii_char(file_with_non_ascii_chars)
 
-    assert actual_result == "\\u00fc"
+    assert actual_result == "\u00fc"
