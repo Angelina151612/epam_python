@@ -20,11 +20,11 @@ def get_longest_diverse_words(file_path: str) -> List[str]:
     exclude = set(string.punctuation)
     text = "".join(ch for ch in text if ch not in exclude)
     word_list = text.split()
-    all_words = [(elem, len(elem), len(set(elem))) for elem in set(word_list)]
-    sorted_words = sorted(all_words, key=lambda point: (-point[2], -point[1]))
-    return [a[0] for a in sorted_words[:10]]
+    word_list = sorted(word_list, key=lambda x: (-len(set(x)), -len(x)))
+    return word_list[:10]
 
 
+# flake8: noqa: R503
 def get_rarest_char(file_path: str) -> str:
     text = open_file(file_path)
     counter = {}
@@ -36,16 +36,12 @@ def get_rarest_char(file_path: str) -> str:
     minimum = min(counter.values())
     for num, count in counter.items():
         if count == minimum:
-            minimum = num
-    return minimum
+            return num
 
 
 def count_punctuation_chars(file_path: str) -> int:
     text = open_file(file_path)
-    count = 0
-    for elem in text:
-        if elem in string.punctuation:
-            count += 1
+    count = sum(1 for elem in text if elem in string.punctuation)
     return count
 
 
