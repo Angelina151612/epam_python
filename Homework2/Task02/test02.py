@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from Homework2.Task02.task02 import major_and_minor_elem
+from task02 import major_and_minor_elem
 
 import pytest
 
