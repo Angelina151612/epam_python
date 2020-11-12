@@ -2,7 +2,7 @@ import hashlib
 import random
 import struct
 import time
-from collections import Callable
+from collections.abc import Callable
 from multiprocessing import Pool
 
 
