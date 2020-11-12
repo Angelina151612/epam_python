@@ -7,4 +7,4 @@ def test_fast_calculate():
     t_start = perf_counter()
     fast_calculate()
     t_stop = perf_counter()
-    assert t_stop - t_start < 60
+    assert t_stop - t_start <= 60
