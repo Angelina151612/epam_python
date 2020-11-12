@@ -1,9 +1,9 @@
 import string
 from typing import Any, List
 
-import pytest
+from Task05.task05 import check_side_to_go, custom_range
 
-from task05 import check_side_to_go, custom_range
+import pytest
 
 
 @pytest.mark.parametrize(

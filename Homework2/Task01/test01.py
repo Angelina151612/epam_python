@@ -1,8 +1,6 @@
 import os
 
-import pytest
-
-from task01 import (
+from Task01.task01 import (
     count_non_ascii_chars,
     count_punctuation_chars,
     get_longest_diverse_words,
@@ -10,6 +8,8 @@ from task01 import (
     get_rarest_char,
     open_file,
 )
+
+import pytest
 
 
 @pytest.fixture()
