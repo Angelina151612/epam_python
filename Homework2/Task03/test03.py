@@ -1,6 +1,6 @@
 from typing import Any, List
 
-from Task03.task03 import combinations
+from task03 import combinations
 
 import pytest
 
