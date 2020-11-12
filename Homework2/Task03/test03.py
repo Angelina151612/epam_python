@@ -1,8 +1,8 @@
 from typing import Any, List
 
-from task03 import combinations
-
 import pytest
+
+from task03 import combinations
 
 
 @pytest.mark.parametrize(

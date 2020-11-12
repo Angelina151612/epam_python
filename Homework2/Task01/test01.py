@@ -1,5 +1,7 @@
 import os
 
+import pytest
+
 from task01 import (
     count_non_ascii_chars,
     count_punctuation_chars,
@@ -8,8 +10,6 @@ from task01 import (
     get_rarest_char,
     open_file,
 )
-
-import pytest
 
 
 @pytest.fixture()
