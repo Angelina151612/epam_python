@@ -1,8 +1,8 @@
 from typing import List, Tuple
 
-from task02 import major_and_minor_elem
-
 import pytest
+
+from task02 import major_and_minor_elem
 
 
 @pytest.mark.parametrize(
