@@ -1,6 +1,6 @@
 from typing import List
 
-from Task04.task04 import cache
+from Homewok2.Task04.task04 import cache
 
 
 def func(a, b):
