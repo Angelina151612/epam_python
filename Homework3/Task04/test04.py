@@ -1,4 +1,4 @@
-from Homework3.Task04.task04 import is_armstrong
+from Task04.task04 import is_armstrong
 
 import pytest
 
