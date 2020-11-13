@@ -6,7 +6,7 @@ def test_cache():
 
     @cache(rep)
     def f():
-        return 'my_decorator'
+        return "my_decorator"
 
     val_1 = f()
     val_2 = f()
