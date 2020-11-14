@@ -11,8 +11,9 @@ def cache(times: int) -> Callable:
                 if arg == args and t > 0:
                     my_cache[idx][2] = t - 1
                     return res
-            my_cache.append([args, func(*args), times])
-            return func(*args)
+            res = func(*args)
+            my_cache.append([args, res, times])
+            return res
 
         return wrapper
 
