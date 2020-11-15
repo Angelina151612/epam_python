@@ -1,10 +1,7 @@
-from time import perf_counter
-
-from Task02.task02 import fast_calculate
+from Task02.task02 import fast_calculate, slow_calculate
 
 
 def test_fast_calculate():
-    t_start = perf_counter()
-    fast_calculate()
-    t_stop = perf_counter()
-    assert t_stop - t_start <= 60
+    res_slow = sum(slow_calculate(i) for i in range(501))
+    res_fast = fast_calculate()
+    assert res_slow == res_fast
