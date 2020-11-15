@@ -1,8 +1,8 @@
 from typing import List
 
-import pytest
+from hw.hw_01_task_04 import check_sum_of_four
 
-from task04 import check_sum_of_four
+import pytest
 
 
 @pytest.mark.parametrize(
