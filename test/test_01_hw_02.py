@@ -1,6 +1,6 @@
 import os
 
-from Task01.task01 import (
+from hw.hw_02_task_01 import (
     count_non_ascii_chars,
     count_punctuation_chars,
     get_longest_diverse_words,

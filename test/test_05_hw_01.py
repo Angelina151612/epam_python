@@ -1,8 +1,8 @@
 from typing import List
 
-import pytest
+from hw.hw_01_task_05 import find_maximal_subarray_sum
 
-from task05 import find_maximal_subarray_sum
+import pytest
 
 
 @pytest.mark.parametrize(
