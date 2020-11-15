@@ -1,4 +1,4 @@
-from calc import check_power_of_2
+from hw.hw_01_task_01 import check_power_of_2
 
 import pytest
 
