@@ -1,6 +1,6 @@
 from unittest import mock
 
-from Homework3.Task01.task01 import cache
+from hw.hw_03_task_01 import cache
 
 
 def test_cache():
