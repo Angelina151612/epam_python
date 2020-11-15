@@ -1,4 +1,4 @@
-from Task03.task03 import make_filter
+from hw.hw_03_task_03 import make_filter
 
 import pytest
 
