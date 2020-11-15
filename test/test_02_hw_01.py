@@ -1,8 +1,8 @@
 from typing import Sequence
 
-import pytest
+from hw.hw_01_task_02 import check_fibonacci
 
-from task02 import check_fibonacci
+import pytest
 
 
 @pytest.mark.parametrize(

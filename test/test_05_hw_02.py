@@ -1,7 +1,7 @@
 import string
 from typing import Any, List
 
-from Task05.task05 import check_side_to_go, custom_range
+from hw.hw_02_task_05 import check_side_to_go, custom_range
 
 import pytest
 
