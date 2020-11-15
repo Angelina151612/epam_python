@@ -1,6 +1,6 @@
 from typing import List
 
-from Task04.task04 import cache
+from hw.hw_02_task_04 import cache
 
 
 def func(a, b):
