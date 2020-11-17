@@ -28,9 +28,7 @@ def read_magic_number(path: str) -> bool:
         with open(path) as f:
             first_line = f.readline()
             num = float(first_line)
-            if 1 <= num < 3:
-                return True
-            return False
+            return 1 <= num < 3
     except ValueError:
         raise ValueError("it's not a number!")
     except FileNotFoundError:
