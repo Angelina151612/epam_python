@@ -6,11 +6,10 @@ def fizzbuzz(n: int) -> List[str]:
     """
     Function takes a number N as an input and returns N FizzBuzz numbers.
 
-    Instruction:
+ Instruction:
      - Install Python 3.8 (https://www.python.org/downloads/)
-     - Install pytest `pip install pytest`
-     - Clone the repository <path your repository>
-     - Checkout branch <your branch>
+     - Clone the repository https://github.com/Angelina151612/epam_python
+     - Checkout branch HW4T04
      - Open terminal
      - Run python hw/hw_04_task_04.py -v
 
