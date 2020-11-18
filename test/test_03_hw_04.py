@@ -6,6 +6,7 @@ def test_stdout(capsys):
     my_precious_logger(text)
     out, err = capsys.readouterr()
     assert out == text
+    assert err == ""
 
 
 def test_stderr(capsys):
@@ -13,3 +14,12 @@ def test_stderr(capsys):
     my_precious_logger(text)
     out, err = capsys.readouterr()
     assert err == text
+    assert out == ""
+
+
+def test_empty_str(capsys):
+    text = ""
+    my_precious_logger(text)
+    out, err = capsys.readouterr()
+    assert err == ""
+    assert out == ""
