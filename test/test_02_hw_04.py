@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock, patch
+from urllib.error import HTTPError
 
 from hw.hw_04_task_02 import count_dots_on_i
 
@@ -17,6 +18,8 @@ def test_count_dots_on_i(mock_urlopen):
 @patch("urllib.request.urlopen")
 def test_unreachable_url(mock_urlopen):
     my_mock = MagicMock()
-    mock_urlopen.side_effect = ValueError
+    mock_urlopen.side_effect = HTTPError(
+        "http://example.com", 500, "Internal Error", {}, None
+    )
     with pytest.raises(ValueError, match="Unreachable {url}"):
         count_dots_on_i(my_mock)
