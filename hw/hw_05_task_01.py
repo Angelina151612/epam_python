@@ -49,11 +49,6 @@ class Homework:
     created: datetime.timedelta
         date and time of deadline
 
-    Methods
-    -------
-    is_active():
-        Check if deadline is passed.
-
     """
 
     def __init__(self, text: str, deadline: int):
@@ -63,12 +58,10 @@ class Homework:
         self.created = datetime.now()
 
     def is_active(self) -> bool:
-        """Return False if deadline is expired, False otherwise."""
+        """Return False if deadline is expired, True otherwise."""
         hw_deadline = self.created + self.deadline
         now = datetime.now()
-        if now > hw_deadline:
-            return False
-        return True
+        return not now > hw_deadline
 
 
 class Student:
@@ -117,7 +110,7 @@ class Teacher:
     Methods
     -------
     create_homework():
-        Create homework to do.
+        Create homework.
 
     """
 

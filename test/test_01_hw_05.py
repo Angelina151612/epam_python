@@ -42,6 +42,7 @@ def test_create_homework(expired_homework):
 
 def test_do_current_homework(student, current_homework):
     assert student.do_homework(current_homework) == current_homework
+    assert current_homework.is_active() is True
 
 
 def test_do_expired_homework(student, expired_homework, capsys):
