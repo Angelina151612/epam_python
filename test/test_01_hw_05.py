@@ -40,9 +40,11 @@ def test_create_homework(expired_homework):
     assert expired_homework.text == "Learn functions"
 
 
-def test_do_current_homework(student, current_homework):
+def test_do_current_homework(student, current_homework, capsys):
     assert student.do_homework(current_homework) == current_homework
     assert current_homework.is_active() is True
+    out, err = capsys.readouterr()
+    assert out == err == ""
 
 
 def test_do_expired_homework(student, expired_homework, capsys):

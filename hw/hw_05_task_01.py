@@ -11,7 +11,7 @@
     дней на выполнение
     created - c точной датой и временем создания
 Методы:
-    is_active - проверяет не истело ли время на выполнение задания,
+    is_active - проверяет не истекло ли время на выполнение задания,
     возвращает boolean
 2. Student
 Атрибуты:
@@ -34,6 +34,8 @@ PEP8 соблюдать строго.
 давать логичные подходящие имена.
 """
 from datetime import datetime, timedelta
+
+from typing import Optional
 
 
 class Homework:
@@ -88,7 +90,7 @@ class Student:
         self.first_name = first_name
 
     # flake8: noqa: T001
-    def do_homework(self, hw: Homework) -> Homework or None:
+    def do_homework(self, hw: Homework) -> Optional[Homework]:
         """Return None and print message if deadline is passed, an instance of homework otherwise."""
         if not hw.is_active():
             print("You are late")
