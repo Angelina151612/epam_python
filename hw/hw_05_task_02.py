@@ -13,10 +13,12 @@ print(custom_sum.__name__)  # 'custom_sum'
 print(custom_sum.__original_func)  # <function custom_sum at <some_id>>
 """
 
+from functools import wraps
 from typing import Callable
 
 
 def decorator(func: Callable) -> Callable:
+    @wraps(func)
     def new_wrapper(wrapper: Callable) -> Callable:
         wrapper.__name__ = func.__name__
         wrapper.__doc__ = func.__doc__

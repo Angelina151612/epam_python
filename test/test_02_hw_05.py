@@ -18,14 +18,10 @@ def test__name__():
 
 
 def test_has_atr__oiginal_func():
+
     assert hasattr(custom_sum, "__original_func") is True
 
 
 def test__original_func():
-    without_print = custom_sum.__original_func
-    assert str(without_print).startswith("<function custom_sum at")
-
-
-def test_results():
-    without_print = custom_sum.__original_func
-    assert custom_sum(1, 2, 3, 4) == without_print(1, 2, 3, 4)
+    with_print = print_result(sum)
+    assert with_print.__original_func == sum
