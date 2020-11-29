@@ -20,12 +20,13 @@ def test_count_of_created_instances():
 @instances_counter
 class FirstClass:
     def __init__(self, number: int):
-        self.number = number
+        self.counter = number
 
 
 def test_reset_instances_counter():
-    first_cls, _ = FirstClass(2), FirstClass(3)  # noqa
+    first_cls, _ = FirstClass(20), FirstClass(3)  # noqa
     count_before = FirstClass.reset_instances_counter()
     assert count_before == 2
     count_after = FirstClass.get_created_instances()
     assert count_after == 0
+    assert first_cls.counter == 20
