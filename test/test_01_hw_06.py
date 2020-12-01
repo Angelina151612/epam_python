@@ -19,8 +19,7 @@ def test_count_of_created_instances():
 
 @instances_counter
 class FirstClass:
-    def __init__(self, number: int):
-        self.counter = number
+    __counter = 20
 
 
 def test_reset_instances_counter():
@@ -29,4 +28,4 @@ def test_reset_instances_counter():
     assert count_before == 2
     count_after = FirstClass.get_created_instances()
     assert count_after == 0
-    assert first_cls.counter == 20
+    assert FirstClass._FirstClass__counter == 20
