@@ -57,7 +57,7 @@ def test_do_current_homework(good_student, docs_hw):
 
 
 def test_do_expired_homework(lazy_student, expired_homework):
-    with pytest.raises(DeadlineError, match="You are late."):
+    with pytest.raises(DeadlineError):
         lazy_student.do_homework(expired_homework, "I really tried.")
 
 
@@ -77,21 +77,22 @@ def test_not_a_homework_object():
         HomeworkResult(good_student, "fff", "Solution")
 
 
-def test_delete_hw_from_homework_done(opp_teacher, good_student, oop_hw, docs_hw):
+@pytest.fixture()
+def _homeworks(opp_teacher, good_student, oop_hw, docs_hw):
     hw1 = good_student.do_homework(oop_hw, "I have done this hw")
     hw2 = good_student.do_homework(docs_hw, "And also this")
     opp_teacher.check_homework(hw1)
     opp_teacher.check_homework(hw2)
+
+
+@pytest.mark.usefixtures("_homeworks")
+def test_delete_hw_from_homework_done(oop_hw, docs_hw):
     all_homeworks = Teacher.homework_done
     assert oop_hw in all_homeworks
     Teacher.reset_results(oop_hw)
     assert oop_hw not in all_homeworks
 
 
-def test_delete_all_hw_from_homework_done(opp_teacher, good_student, oop_hw, docs_hw):
-    hw1 = good_student.do_homework(oop_hw, "I have done this hw")
-    hw2 = good_student.do_homework(docs_hw, "And also this")
-    opp_teacher.check_homework(hw1)
-    opp_teacher.check_homework(hw2)
+def test_delete_all_hw_from_homework_done(oop_hw, docs_hw):
     Teacher.reset_results()
     assert not bool(Teacher.homework_done)

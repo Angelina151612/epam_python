@@ -88,14 +88,14 @@ class Homework:
     def __init__(self, text: str, deadline: int):
         """Create an instance of a homework."""
         self.text = text
-        self.deadline = timedelta(deadline)
+        self.deadline = timedelta(days=deadline)
         self.created = datetime.now()
 
     def is_active(self) -> bool:
         """Return False if deadline is expired, True otherwise."""
         hw_deadline = self.created + self.deadline
         now = datetime.now()
-        return not now > hw_deadline
+        return now <= hw_deadline
 
 
 class Student(Person):
@@ -111,10 +111,10 @@ class Student(Person):
 
     # flake8: noqa: T001
     def do_homework(self, hw: Homework, solution: str) -> Optional[Homework]:
-        """Return None and print message if deadline is passed, an instance of homework otherwise."""
-        if not hw.is_active():
-            raise DeadlineError()
-        return HomeworkResult(self, hw, solution)
+        """Raise an exception if deadline is passed, return an instance of HomeworkResult otherwise."""
+        if hw.is_active():
+            return HomeworkResult(self, hw, solution)
+        raise DeadlineError()
 
 
 class HomeworkResult:
@@ -169,7 +169,7 @@ class Teacher(Person):
 
     def check_homework(self, hw: HomeworkResult) -> bool:
         if len(hw.solution) > 5:
-            if not any(hw in s for s in self.homework_done.values()):
+            if hw not in self.homework_done[hw.homework]:
                 self.homework_done[hw.homework].append(hw)
                 return True
 
