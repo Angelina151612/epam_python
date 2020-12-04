@@ -24,14 +24,14 @@ example_tree = {
 
 
 @pytest.mark.parametrize(
-    ("value", "expected_result"),
+    ("element", "expected_result"),
     [
         ("RED", 8),
         (15, 1),
         ("A", 0),
     ],
 )
-def test_find_occurrences(value: Any, expected_result: int):
-    actual_result = find_occurrences(example_tree, value)
+def test_find_occurrences(element: Any, expected_result: int):
+    actual_result = find_occurrences(example_tree, element)
 
     assert actual_result == expected_result
