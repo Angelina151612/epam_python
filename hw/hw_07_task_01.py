@@ -15,10 +15,10 @@ def find_occurrences(tree: Iterable, element: Any) -> int:
         for subtree in tree:
             counter += find_occurrences(subtree, element)
     elif isinstance(tree, dict):
-        for k in tree:
-            if k == element:
+        for key, value in tree.items():
+            if key == element:
                 counter += 1
-            counter += find_occurrences(tree[k], element)
+            counter += find_occurrences(value, element)
     elif tree == element:
         counter += 1
     return counter
