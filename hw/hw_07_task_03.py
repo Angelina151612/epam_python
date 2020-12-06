@@ -13,16 +13,17 @@ def check_win(board: List[List]) -> Union[int, str]:
         (2, 4, 6),
     )
     for each in win_coord:
-        if board[each[0]] == board[each[1]] == board[each[2]] and board[each[0]] != "-":
-            return board[each[0]]
+        combination = [board[i] for i in each]
+        if len(set(combination)) == 1 and combination[0] != "-":
+            return combination[0]
     return 0
 
 
 def tic_tac_toe_checker(board: List[List]) -> str:
     flatten_board = [val for sublist in board for val in sublist]
-    res = check_win(flatten_board)
-    if res != 0:
-        return res + " wins!"
+    winner = check_win(flatten_board)
+    if isinstance(winner, str):
+        return winner + " wins!"
     elif any(x == "-" for x in flatten_board):
         return "unfinished"
     else:
