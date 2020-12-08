@@ -1,7 +1,7 @@
-from typing import List, Union
+from typing import List
 
 
-def check_win(board: List[List]) -> Union[int, str]:
+def check_win(board: List[List]) -> str:
     win_coord = (
         (0, 1, 2),
         (3, 4, 5),
@@ -16,13 +16,13 @@ def check_win(board: List[List]) -> Union[int, str]:
         combination = [board[i] for i in each]
         if len(set(combination)) == 1 and combination[0] != "-":
             return combination[0]
-    return 0
+    return ""
 
 
 def tic_tac_toe_checker(board: List[List]) -> str:
     flatten_board = [val for sublist in board for val in sublist]
     winner = check_win(flatten_board)
-    if isinstance(winner, str):
+    if winner != "":
         return winner + " wins!"
     elif any(x == "-" for x in flatten_board):
         return "unfinished"
