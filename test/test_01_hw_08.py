@@ -17,16 +17,19 @@ def file_name(data: str):
 @pytest.mark.parametrize(
     ("data"),
     [
-        ("name=kek 1=run"),
+        ("1=run"),
+        ("!=1"),
+        ("Hello!=123"),
+        ("def=def"),
     ],
 )
 def test_value_error(file_name):
-    with pytest.raises(ValueError, match="Key should be a string!"):
+    with pytest.raises(ValueError, match="Invalid key!"):
         KeyValueStorage(file_name)
 
 
 @pytest.mark.parametrize(
-    ("data", "dictionary"),
+    ("data", "correct_storage"),
     [
         (
             "name=kek last_name=top power=9001 song=shadilay",
@@ -35,7 +38,6 @@ def test_value_error(file_name):
         ("name=kek name=run", {"name": "kek"}),
     ],
 )
-def test_key_value_storage(file_name, dictionary):
+def test_key_value_storage(file_name, correct_storage):
     storage = KeyValueStorage(file_name)
-    assert storage == dictionary
-    assert storage["name"] == storage.name == dictionary["name"]
+    assert storage["name"] == storage.name == correct_storage["name"]
