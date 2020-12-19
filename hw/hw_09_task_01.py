@@ -1,25 +1,42 @@
-from typing import Iterator, List
+from typing import Generator, Iterator, List, Optional
+
+
+def get_value_from_file(path: str) -> int:
+    with open(path) as f:
+        for line in f:
+            yield int(line)
+
+
+def get_next_from_iterator(iterator: Generator) -> Optional[int]:
+    try:
+        value = next(iterator)
+    except StopIteration:
+        value = None
+    return value  # noqa
 
 
 def merge_sorted_files(file_list: List[str]) -> Iterator:
-    with open(file_list[0]) as f1:
-        first_arr = list(f1.read().split())
-    with open(file_list[1]) as f2:
-        second_arr = list(f2.read().split())
-    i = j = 0
-    n1 = len(first_arr)
-    n2 = len(second_arr)
-    while i < n1 and j < n2:
-        if first_arr[i] < second_arr[j]:
-            yield int(first_arr[i])
-            i += 1
-        else:
-            yield int(second_arr[j])
-            j += 1
-    while i < n1:
-        yield int(first_arr[i])
-        i += 1
 
-    while j < n2:
-        yield int(second_arr[j])
-        j += 1
+    first_arr = get_value_from_file(file_list[0])
+    second_arr = get_value_from_file(file_list[1])
+    first = next(first_arr)
+    second = next(second_arr)
+
+    while True:
+        if first is None and second is None:
+            break
+
+        elif second is None:
+            yield first
+            first = get_next_from_iterator(first_arr)
+
+        elif first is None:
+            yield second
+            second = get_next_from_iterator(second_arr)
+
+        elif first < second:
+            yield first
+            first = get_next_from_iterator(first_arr)
+        else:
+            yield second
+            second = get_next_from_iterator(second_arr)
