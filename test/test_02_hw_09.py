@@ -23,3 +23,10 @@ def test_generator_not_suppressed_exception():
     with pytest.raises(ZeroDivisionError):  # noqa:
         with SuppressorCls(IndexError):
             1 / 0
+
+
+def test_generator_and_class_supressed_subclass_exceptions():
+    with SuppressorCls(Exception):
+        raise IndexError()
+    with suppressor_gen(Exception):
+        raise IndexError()

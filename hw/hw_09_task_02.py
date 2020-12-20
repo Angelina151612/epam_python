@@ -16,7 +16,7 @@ class SuppressorCls:
         pass
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        return exc_type == self.exception
+        return issubclass(exc_type, self.exception)
 
 
 @contextmanager
