@@ -23,10 +23,7 @@ def merge_sorted_files(file_list: List[str]) -> Iterator:
     second = next(second_arr)
 
     while True:
-        if first is None and second is None:
-            break
-
-        elif second is None:
+        if second is None:
             yield first
             first = get_next_from_iterator(first_arr)
 
