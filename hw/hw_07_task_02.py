@@ -27,6 +27,4 @@ def return_final_str(text: str) -> List[str]:
 
 
 def backspace_compare(first: str, second: str) -> bool:
-    first = return_final_str(first)
-    second = return_final_str(second)
-    return first == second
+    return return_final_str(first) == return_final_str(second)
