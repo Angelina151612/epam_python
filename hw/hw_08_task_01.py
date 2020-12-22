@@ -14,7 +14,7 @@ class KeyValueStorage:
                 raise ValueError("Invalid key!")
             if value.isdigit():
                 value = int(value)
-            if key not in self.my_dict.keys():
+            if key not in self.my_dict:
                 self.my_dict[key] = value
 
     def __getitem__(self, item: str):
