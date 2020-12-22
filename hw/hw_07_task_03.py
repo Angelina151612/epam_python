@@ -22,7 +22,7 @@ def check_win(board: List[List]) -> str:
 def tic_tac_toe_checker(board: List[List]) -> str:
     flatten_board = [val for sublist in board for val in sublist]
     winner = check_win(flatten_board)
-    if winner != "":
+    if winner:
         return winner + " wins!"
     elif any(x == "-" for x in flatten_board):
         return "unfinished"
