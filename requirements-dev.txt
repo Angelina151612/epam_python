@@ -26,3 +26,5 @@ aiohttp
 BeautifulSoup4
 
 requests
+
+lxml
