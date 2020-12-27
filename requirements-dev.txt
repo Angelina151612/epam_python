@@ -22,3 +22,5 @@ pytest-trio
 
 asynctest==0.13.0
 aiohttp
+
+BeautifulSoup4
