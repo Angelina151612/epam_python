@@ -4,6 +4,7 @@ ignore = E203, E501, W503,  # handled by black
 exclude =
     *venv
     venv*
+    hw/homework12
 max-complexity = 7
 max-cognitive-complexity = 10
 per-file-ignores =
