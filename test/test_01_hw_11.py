@@ -7,11 +7,6 @@ class ColorsEnum(metaclass=SimplifiedEnum):
 
 def test_enum():
     assert ColorsEnum.RED == "RED"
-
-
-def test_iterable():
-    assert 4 == sum(1 for _ in ColorsEnum)
-
-
-def test_len():
-    assert len(ColorsEnum) == 4
+    assert ColorsEnum.BLUE == "BLUE"
+    assert ColorsEnum.ORANGE == "ORANGE"
+    assert ColorsEnum.BLACK == "BLACK"
