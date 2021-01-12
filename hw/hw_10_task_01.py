@@ -1,28 +1,27 @@
 import asyncio
 import json
 import re
+from heapq import nlargest
 from typing import Dict, List
 
 import aiohttp
 
 from bs4 import BeautifulSoup
 
-import requests
-
-
-def get_exchange_rate() -> float:
-    """Return current exchange rate USD to RUB."""
-    url_cbr = "http://www.cbr.ru/scripts/XML_daily.asp"
-    page = requests.get(url_cbr)
-    soup = BeautifulSoup(page.text, "lxml")
-    exchange_rate = soup.find(id="R01235").find_next("value").get_text()
-    return float(exchange_rate.replace(",", "."))
-
 
 async def get_page(url: str) -> str:
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             return await response.text()
+
+
+async def get_exchange_rate() -> float:
+    """Return current exchange rate USD to RUB."""
+    url_cbr = "http://www.cbr.ru/scripts/XML_daily.asp"
+    page = await get_page(url_cbr)
+    page = BeautifulSoup(page, "lxml")
+    exchange_rate = page.find(id="R01235").find_next("value").get_text()
+    return float(exchange_rate.replace(",", "."))
 
 
 async def get_companies_from_page(path: str, page: int) -> List:
@@ -39,8 +38,8 @@ async def get_companies_from_page(path: str, page: int) -> List:
     start_page = path + "index/components/s&p_500"
     base_url = start_page + " ?p={}"
     companies = []
-    soup = BeautifulSoup(await get_page(base_url.format(page)), "lxml")
-    table = soup.find(class_="table table-small")
+    page = BeautifulSoup(await get_page(base_url.format(page)), "lxml")
+    table = page.find(class_="table table-small")
 
     for row in table.find_all("tr")[1:]:
         name = row.find("a")["title"]
@@ -50,19 +49,19 @@ async def get_companies_from_page(path: str, page: int) -> List:
     return companies
 
 
-def page_count(path: str) -> int:
+async def page_count(path: str) -> int:
     """Return number of pages with tables."""
     start_page = path + "index/components/s&p_500"
-    page = requests.get(start_page)
-    soup = BeautifulSoup(page.text, "lxml")
-    pages = soup.find("div", class_="finando_paging").find_all("a")
+    page = await get_page(start_page)
+    page = BeautifulSoup(page, "lxml")
+    pages = page.find("div", class_="finando_paging").find_all("a")
     return int(pages[-1].text)
 
 
 async def get_companies_from_all_pages() -> List[List]:
     """Collect iformation from all pages using async methods."""
     path = "https://markets.businessinsider.com/"
-    pages = page_count(path)
+    pages = await page_count(path)
     tasks = [get_companies_from_page(path, i) for i in range(1, pages + 1)]
     return await asyncio.gather(*tasks)
 
@@ -71,17 +70,17 @@ async def get_company_info(company: List, exchange_rate: float) -> Dict:
     """Parse company page and return dictionary with information."""
     start_page = "https://markets.businessinsider.com"
     base_url = start_page + company[1]
-    soup = BeautifulSoup(await get_page(base_url), "lxml")
-    table = soup.find("span", class_="price-section__category")
+    page = BeautifulSoup(await get_page(base_url), "lxml")
+    table = page.find("span", class_="price-section__category")
     code = table.find("span").text[2:]
-    table = soup.find(class_="price-section__current-value")
+    table = page.find(class_="price-section__current-value")
     price = float(table.text.replace(",", "")) * exchange_rate
-    script = soup.find("div", class_="snapshot").find("script")
+    script = page.find("div", class_="snapshot").find("script")
     week_low = float(re.findall(r"low52weeks: (\d*.\d*),", script.string)[0])
     week_high = float(re.findall(r"high52weeks: (\d*.\d*),", script.string)[0])
     try:
         pe = float(
-            soup.find("div", class_="snapshot")
+            page.find("div", class_="snapshot")
             .find_all(class_="snapshot__data-item")[6]
             .text.split()[0]
         )
@@ -108,7 +107,7 @@ def save_to_json(filename: str, value_name: str, data: List[Dict]) -> None:
             }
             for i in range(10)
         ]
-        file.write(json.dumps(top_10))
+        json.dump(top_10, file, indent=4)
 
 
 async def get_all_information() -> List[Dict]:
@@ -118,7 +117,7 @@ async def get_all_information() -> List[Dict]:
 
     """
     companies = await get_companies_from_all_pages()
-    exchange_rate = get_exchange_rate()
+    exchange_rate = await get_exchange_rate()
     tasks = []
     for page in companies:
         for company in page:
@@ -132,21 +131,21 @@ def main() -> None:
     save_to_json(
         "top_growth",
         "growth",
-        sorted(companies_info, key=lambda x: x["growth"], reverse=True)[0:10],
+        nlargest(10, companies_info, key=lambda x: x["growth"]),
     )
     save_to_json(
         "top_PE",
         "P/E",
-        sorted(companies_info, key=lambda x: x["P/E"], reverse=True)[0:10],
+        nlargest(10, companies_info, key=lambda x: x["P/E"]),
     )
     save_to_json(
         "top_price",
         "price",
-        sorted(companies_info, key=lambda x: x["price"], reverse=True)[0:10],
+        nlargest(10, companies_info, key=lambda x: x["price"]),
     )
     param = "potential profit"
     save_to_json(
         "top_potential_profit",
         param,
-        sorted(companies_info, key=lambda x: x[param], reverse=True)[0:10],
+        nlargest(10, companies_info, key=lambda x: x[param]),
     )
