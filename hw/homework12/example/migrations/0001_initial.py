@@ -40,8 +40,8 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("last_name", models.CharField(max_length=20)),
-                ("first_name", models.CharField(max_length=20)),
+                ("last_name", models.CharField(max_length=45)),
+                ("first_name", models.CharField(max_length=45)),
             ],
         ),
         migrations.CreateModel(
