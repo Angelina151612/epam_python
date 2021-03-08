@@ -18,6 +18,10 @@ pre-commit==2.8.2
 
 pytest>=6.1.2
 pytest-cov>=2.10.1
+
+
+Django~=3.1.4
+pytest-django
 pytest-trio
 
 asynctest==0.13.0
@@ -28,3 +32,4 @@ BeautifulSoup4
 requests
 
 lxml
+
